@@ -19,6 +19,7 @@ public class ProductDao extends AbstractDao {
 	private String select_id = "select p from ProductPojo p where id =:id";
 	private String select_all = "select p from ProductPojo p";
 	private String delete_product = "delete from ProductPojo p where barcode =:barcode";
+	private String select_product_by_brand_category = "select p from ProductPojo p where brand_category =:id";
 
 
 	public void add(ProductPojo p) {
@@ -46,6 +47,11 @@ public class ProductDao extends AbstractDao {
 
 	public List<ProductPojo> selectAll() {
 		TypedQuery<ProductPojo> query = getQuery(select_all, ProductPojo.class);
+		return query.getResultList();
+	}
+	public List<ProductPojo> selectByBrandCategory(int category) {
+		TypedQuery<ProductPojo> query = getQuery(select_product_by_brand_category, ProductPojo.class);
+		query.setParameter("id", category);
 		return query.getResultList();
 	}
 

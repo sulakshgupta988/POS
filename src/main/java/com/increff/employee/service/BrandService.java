@@ -1,5 +1,6 @@
 package com.increff.employee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.employee.dao.BrandDao;
+import com.increff.employee.dao.ProductDao;
 import com.increff.employee.pojo.BrandPojo;
+import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
 
 @Service
@@ -15,6 +18,8 @@ public class BrandService {
 
 	@Autowired
 	private BrandDao dao;
+	@Autowired
+	ProductDao pdao;
 
 	@Transactional(rollbackFor = ApiException.class)
 	public void add(BrandPojo p) throws ApiException {
@@ -45,6 +50,11 @@ public class BrandService {
 	
 	@Transactional
 	public void delete(int id) {
+		List<ProductPojo> list = new ArrayList<ProductPojo>();
+		list = pdao.selectByBrandCategory(id);
+		for(ProductPojo p : list) {
+			pdao.delete(p.getBarcode());
+		}
 		dao.delete(id);
 	}
 
