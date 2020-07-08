@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "brand", 
+@Table(name = "brandp", 
 uniqueConstraints = { @UniqueConstraint(columnNames = 
                                         { "brand", "category" }) })
 
