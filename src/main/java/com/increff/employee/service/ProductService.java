@@ -79,7 +79,7 @@ public class ProductService {
 		if (p.getMrp() < 0) {
 			throw new ApiException("MRP cannot be negative");
 		}
-		if(dao.select(p.getBarcode()) != null) {
+		if (dao.select(p.getBarcode()) != null) {
 			throw new ApiException("Barcode already exists");
 		}
 

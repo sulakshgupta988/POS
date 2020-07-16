@@ -47,12 +47,12 @@ public class BrandService {
 	public List<BrandPojo> getAll() {
 		return dao.selectAll();
 	}
-	
+
 	@Transactional
 	public void delete(int id) {
 		List<ProductPojo> list = new ArrayList<ProductPojo>();
 		list = pdao.selectByBrandCategory(id);
-		for(ProductPojo p : list) {
+		for (ProductPojo p : list) {
 			pdao.delete(p.getBarcode());
 		}
 		dao.delete(id);
