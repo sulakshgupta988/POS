@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.increff.employee.model.ApiException;
 import com.increff.employee.model.ProductData;
 import com.increff.employee.model.ProductForm;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.ProductPojo;
-import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandService;
 import com.increff.employee.service.ProductService;
 
@@ -56,9 +56,9 @@ public class ProductDto {
 
 	protected ProductData convert(ProductPojo p) throws ApiException {
 		ProductData d = new ProductData();
-		BrandPojo bp = brandService.get(p.getBrand_category());
+		BrandPojo bp = brandService.get(p.getBrandId());
 		d.setBarcode(p.getBarcode());
-		d.setBrand_category(p.getBrand_category());
+		d.setBrandId(p.getBrandId());
 		d.setName(p.getName());
 		d.setId(p.getId());
 		d.setMrp(p.getMrp());
@@ -70,12 +70,12 @@ public class ProductDto {
 
 	protected ProductPojo convert(ProductForm form) throws ApiException {
 		ProductPojo p = new ProductPojo();
-		BrandPojo bp = brandService.get(form.getBrand_category());
+		BrandPojo bp = brandService.get(form.getBrandId());
 		if (bp == null) {
 			throw new ApiException("The given brand and category does not exist is Brand master.");
 		}
 		p.setBarcode(form.getBarcode());
-		p.setBrand_category(form.getBrand_category());
+		p.setBrandId(form.getBrandId());
 		p.setMrp(form.getMrp());
 		p.setName(form.getName());
 

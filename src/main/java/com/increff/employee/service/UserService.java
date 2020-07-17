@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.employee.dao.UserDao;
+import com.increff.employee.model.ApiException;
 import com.increff.employee.pojo.UserPojo;
 
 @Service

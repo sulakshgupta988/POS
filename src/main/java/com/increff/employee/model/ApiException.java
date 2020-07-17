@@ -1,4 +1,4 @@
-package com.increff.employee.service;
+package com.increff.employee.model;
 
 public class ApiException extends Exception {
 

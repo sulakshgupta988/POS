@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.employee.dao.ProductDao;
+import com.increff.employee.model.ApiException;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
 
@@ -30,13 +31,13 @@ public class ProductService {
 		dao.delete(barcode);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public ProductPojo select(String barcode) throws ApiException {
 		checkBarcode(barcode);
 		return dao.select(barcode);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<ProductPojo> selectAll() {
 		return dao.selectAll();
 	}
@@ -48,13 +49,13 @@ public class ProductService {
 		getCheck(id);
 		ProductPojo ex = dao.select(id);
 		ex.setBarcode(p.getBarcode());
-		ex.setBrand_category(p.getBrand_category());
+		ex.setBrandId(p.getBrandId());
 		ex.setId(id);
 		ex.setMrp(p.getMrp());
 		ex.setName(p.getName());
 	}
 
-	private void getCheck(int id) throws ApiException {
+	public void getCheck(int id) throws ApiException {
 		ProductPojo p = dao.select(id);
 		if (p == null) {
 			throw new ApiException("Id = " + id + " does not exists.");
@@ -69,7 +70,7 @@ public class ProductService {
 
 	}
 
-	private void validate(ProductPojo p) throws ApiException {
+	protected void validate(ProductPojo p) throws ApiException {
 		if (StringUtil.isEmpty(p.getName())) {
 			throw new ApiException("name cannot be empty");
 		}
@@ -85,7 +86,7 @@ public class ProductService {
 
 	}
 
-	private void normalize(ProductPojo p) {
+	protected void normalize(ProductPojo p) {
 		p.setBarcode(StringUtil.toLowerCase(p.getBarcode()));
 		p.setName(StringUtil.toLowerCase(p.getName()));
 

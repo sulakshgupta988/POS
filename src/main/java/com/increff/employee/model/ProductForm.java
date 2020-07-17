@@ -2,7 +2,7 @@ package com.increff.employee.model;
 
 public class ProductForm  {
 	private String barcode;
-	private int brand_category;
+	private int brandId;
 	private String name;
 	private double mrp;
 
@@ -14,12 +14,12 @@ public class ProductForm  {
 		this.barcode = barcode;
 	}
 
-	public int getBrand_category() {
-		return brand_category;
+	public int getBrandId() {
+		return brandId;
 	}
 
-	public void setBrand_category(int brand_category) {
-		this.brand_category = brand_category;
+	public void setBrandId(int brandId) {
+		this.brandId = brandId;
 	}
 
 	public String getName() {

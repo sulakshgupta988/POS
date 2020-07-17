@@ -14,7 +14,7 @@ public class ProductPojo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String barcode;
-	private int brand_category;
+	private int brandId;
 	private String name;
 	private double mrp;
 
@@ -34,12 +34,12 @@ public class ProductPojo {
 		this.barcode = barcode;
 	}
 
-	public int getBrand_category() {
-		return brand_category;
+	public int getBrandId() {
+		return brandId;
 	}
 
-	public void setBrand_category(int brand_category) {
-		this.brand_category = brand_category;
+	public void setBrandId(int brand_category) {
+		this.brandId = brand_category;
 	}
 
 	public String getName() {

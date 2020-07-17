@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.increff.employee.model.ApiException;
 import com.increff.employee.model.BrandData;
 import com.increff.employee.model.BrandForm;
 import com.increff.employee.pojo.BrandPojo;
-import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandService;
 
 @Service

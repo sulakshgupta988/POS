@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.employee.dao.BrandDao;
 import com.increff.employee.dao.ProductDao;
+import com.increff.employee.model.ApiException;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
@@ -19,7 +20,7 @@ public class BrandService {
 	@Autowired
 	private BrandDao dao;
 	@Autowired
-	ProductDao pdao;
+	ProductDao productDao;
 
 	@Transactional(rollbackFor = ApiException.class)
 	public void add(BrandPojo p) throws ApiException {
@@ -37,13 +38,13 @@ public class BrandService {
 
 	}
 
-	@Transactional()
+	@Transactional(readOnly = true)
 	public BrandPojo get(int id) throws ApiException {
 		getCheck(id);
 		return dao.select(id);
 	}
 
-	@Transactional()
+	@Transactional(readOnly = true)
 	public List<BrandPojo> getAll() {
 		return dao.selectAll();
 	}
@@ -51,9 +52,9 @@ public class BrandService {
 	@Transactional
 	public void delete(int id) {
 		List<ProductPojo> list = new ArrayList<ProductPojo>();
-		list = pdao.selectByBrandCategory(id);
+		list = productDao.selectByBrandCategory(id);
 		for (ProductPojo p : list) {
-			pdao.delete(p.getBarcode());
+			productDao.delete(p.getBarcode());
 		}
 		dao.delete(id);
 	}
