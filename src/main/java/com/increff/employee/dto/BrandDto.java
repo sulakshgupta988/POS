@@ -23,7 +23,7 @@ public class BrandDto {
 		service.add(p);
 	}
 
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
 		service.delete(id);
 	}
 

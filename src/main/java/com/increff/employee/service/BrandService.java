@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.employee.dao.BrandDao;
+import com.increff.employee.dao.InventoryDao;
 import com.increff.employee.dao.ProductDao;
 import com.increff.employee.model.ApiException;
 import com.increff.employee.pojo.BrandPojo;
@@ -21,6 +22,8 @@ public class BrandService {
 	private BrandDao dao;
 	@Autowired
 	ProductDao productDao;
+	@Autowired
+	InventoryDao inventoryDao;
 
 	@Transactional(rollbackFor = ApiException.class)
 	public void add(BrandPojo p) throws ApiException {
@@ -50,11 +53,13 @@ public class BrandService {
 	}
 
 	@Transactional
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
+		getCheck(id);
 		List<ProductPojo> list = new ArrayList<ProductPojo>();
 		list = productDao.selectByBrandCategory(id);
 		for (ProductPojo p : list) {
 			productDao.delete(p.getBarcode());
+			inventoryDao.delete(p.getId());
 		}
 		dao.delete(id);
 	}
@@ -80,7 +85,7 @@ public class BrandService {
 	private BrandPojo getCheck(int id) throws ApiException {
 		BrandPojo p = dao.select(id);
 		if (p == null) {
-			throw new ApiException("id = " + id + " does not exists. ");
+			throw new ApiException("BrandId = " + id + " does not exists. ");
 		}
 		return p;
 	}

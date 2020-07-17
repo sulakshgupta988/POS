@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.increff.employee.dao.InventoryDao;
 import com.increff.employee.dao.ProductDao;
 import com.increff.employee.model.ApiException;
+import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
 
@@ -16,6 +18,9 @@ public class ProductService {
 
 	@Autowired
 	private ProductDao dao;
+	
+	@Autowired 
+	private InventoryDao inventoryDao;
 
 	@Transactional
 	public void add(ProductPojo p) throws ApiException {
@@ -28,6 +33,11 @@ public class ProductService {
 	public void delete(String barcode) throws ApiException {
 		barcode = StringUtil.toLowerCase(barcode);
 		checkBarcode(barcode);
+		ProductPojo productPojo = dao.select(barcode);
+		InventoryPojo inventoryPojo = inventoryDao.get(productPojo.getId());
+		if(inventoryPojo != null) {
+			inventoryDao.delete(inventoryPojo.getId());
+		}
 		dao.delete(barcode);
 	}
 
@@ -55,17 +65,22 @@ public class ProductService {
 		ex.setName(p.getName());
 	}
 
-	public void getCheck(int id) throws ApiException {
+	@Transactional(readOnly = true)
+	public ProductPojo select(int id) throws ApiException {
+		return getCheck(id);
+	}
+
+	protected ProductPojo getCheck(int id) throws ApiException {
 		ProductPojo p = dao.select(id);
 		if (p == null) {
 			throw new ApiException("Id = " + id + " does not exists.");
 		}
-
+		return p;
 	}
 
 	private void checkBarcode(String barcode) throws ApiException {
 		if (dao.select(barcode) == null) {
-			throw new ApiException("Barcode = " + barcode + "does not exists. ");
+			throw new ApiException("Barcode = " + barcode + " does not exists. ");
 		}
 
 	}
