@@ -23,4 +23,8 @@ public class SiteUiController extends AbstractUiController {
 		return mav("logout.html");
 	}
 
+	@RequestMapping(value = "/site/start")
+	public ModelAndView start() {
+		return mav("start.html");
+	}
 }

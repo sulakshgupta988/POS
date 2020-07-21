@@ -1,0 +1,204 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="snippets.html :: name_head" ></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_navbar"></nav>
+
+<div class="container">
+
+<h3 class ="text-center">Handle Products</h3>
+<div class="row">
+  	
+</div>
+ <!-- Top row with form-->
+ <div class="row">
+	<div class="col">
+		<form id="product-form">
+
+			<div class="row">
+
+				<input type="hidden" class="form-control" name="brandId" id="id">
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-2">
+				    <label for="selectBrand" class="col-sm-2 col-form-label">Brand</label>
+				    <select class="form-control" id="selectBrand">
+				    </select>    
+				  	</div>
+				
+				 	<div class="col-md-2">
+					<label for="selectCategory" class="col-sm-2 col-form-label">Category</label>
+				    <select class="form-control" id="selectCategory">
+				    </select>    
+			  	</div>
+
+	            <div class="col-md-3">
+	            	<label for="inputProductName" class=" col-form-label">Product Name</label>
+	                <input type="text" class="form-control" name="name" id="inputProductName" placeholder="Enter Product Name">
+	            </div>
+	     
+	            <div class="col-md-3">
+	            	 <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+	                 <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+	            </div>
+	   
+	            <div class="col-md-2">
+	            	<label for="inputMrp" class="col-sm-2 col-form-label">MRP</label>
+	                <input type="text" class="form-control" name="mrp" id="inputMrp" 
+	                placeholder="Enter MRP">
+	            </div>
+
+			</div>
+	 
+	        &nbsp;
+
+			<div class="row">
+
+				<div class="col-md-11">
+					<button type="button" class="btn btn-primary float-right" id="add-product" title = "Add a product">	 Add  </button>
+				</div>
+			   
+			    <div class="col-md-1">
+			    	<button type="button" class="btn btn-success float-right" id="upload-data" title ="Upload a TSV">Upload</button>
+			    </div>
+
+			</div>
+	    </form>
+	</div>
+</div> 
+
+
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
+<div class="row">
+
+ <!-- Table -->
+ <div class="col-12">
+	<table class="table table-striped" id="product-table">
+	  <thead class="thead-dark">
+	    <tr>
+	      <th scope="col">Brand Name</th>
+	      <th scope="col">Category</th>
+	      <th scope="col">Product</th>
+	      <th scope="col">Barcode</th>
+	      <th scope="col">MRP</th>
+	      <th scope="col">Actions</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+
+	  </tbody>
+	</table>
+
+</div>
+</div>
+
+<!-- Product Edit Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="edit-product-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-lg-6">
+        	Brand
+        		<select class="form-control" id="selectEditBrand">
+          			
+        		</select>    
+      		</div>
+        	<div class="col-lg-6">
+        	Category
+        		<select class="form-control" id="selectEditCategory">
+          			
+        		</select>    
+      		</div>
+		</div>
+		<form id="product-edit-form">
+		  <div class="form-group">
+		    <label for="inputName" class=" col-form-label">Product Name</label>
+		    <div >
+		      <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter Product Name">
+		    </div>
+		  </div>
+		  <br></br>
+		   <div class="form-group">
+		    <label for="inputBarcode" class=" col-form-label">Barcode</label>
+		    <div >
+		      <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+		    </div>
+		  </div>
+		  <br></br>
+		  <div class="form-group">
+		    <label for="inputMrp" class=" col-form-label">MRP</label>
+		    <div class=>
+		      <input type="text" class="form-control" name="mrp" id="inputMrp" placeholder="Enter MRP">
+		    </div>
+		  </div>
+	        <input type="hidden" name="id" >
+	        <input type="hidden" name="brandId">
+		</form>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="update-product">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Employee upload Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="upload-product-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Upload product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+      	<div class="product-file">
+		  <input type="file" class="custom-file-input" id="productFile">
+		  <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
+		</div>
+		<a th:href="@{/sample/product.tsv}" target="_blank">Download Sample</a> 
+		<br>
+		Rows: <span id="rowCount">0</span>, 
+		Processed: <span id="processCount">0</span>, 
+		Errors: <span id="errorCount">0</span>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+        <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/product.js}"></script>
+
+</body>	
+
+</html>

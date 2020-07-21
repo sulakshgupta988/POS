@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_navbar"></nav>
+
+<div class="container">
+<div class="row">
+<div class="col-6">
+ 
+<div class="jumbotron" >
+  <h1 class="display-4">POS Welcomes You!!</h1>
+  <h3>Never Easier than now</h3>
+  <hr class="my-4">
+  <!--p>This application teaches you Spring concepts and creating awesome web applications</p-->
+  <a class="btn btn-primary btn-lg" th:href="@{/ui/brand}" role="button">Confused!! Start here</a>
+</div>
+
+</div>
+</div>
+</div> <!--Container-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+</body>
+
+</html>
