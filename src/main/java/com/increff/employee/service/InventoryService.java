@@ -50,7 +50,7 @@ public class InventoryService {
 		existing.setQuantity(newQuantity);
 	}
 
-	private InventoryPojo getCheck(int id) throws ApiException {
+	protected InventoryPojo getCheck(int id) throws ApiException {
 		InventoryPojo pojo = dao.get(id);
 		if (pojo == null) {
 			throw new ApiException("Product id = " + id + " does not exists. ");

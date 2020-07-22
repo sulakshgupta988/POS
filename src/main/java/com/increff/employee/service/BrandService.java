@@ -79,10 +79,9 @@ public class BrandService {
 		BrandPojo ex = getCheck(id);
 		ex.setCategory(p.getCategory());
 		ex.setBrand(p.getBrand());
-		// dao.update(ex);
 	}
 
-	private BrandPojo getCheck(int id) throws ApiException {
+	protected BrandPojo getCheck(int id) throws ApiException {
 		BrandPojo p = dao.select(id);
 		if (p == null) {
 			throw new ApiException("BrandId = " + id + " does not exists. ");
@@ -90,7 +89,7 @@ public class BrandService {
 		return p;
 	}
 
-	private void normalize(BrandPojo p) {
+	protected static void normalize(BrandPojo p) {
 		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
 		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
 
