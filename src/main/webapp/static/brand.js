@@ -23,6 +23,7 @@ function addBrand(event){
 	   },
 	   error: handleAjaxError
 	});
+	$('#brand-form')[0].reset();
 	return false;
 }
 

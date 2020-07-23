@@ -19,6 +19,11 @@ function addProduct(event){
 		alert("ProductName cannot be empty");
 		return false;
 	}
+	var mrp = $('#product-form input[name=mrp]').val();
+	if(isNaN(parseFloat(mrp)) ){
+		alert("MRP should be a decimal value");
+		return false;
+	}
 	
 	if($('#product-form input[name=barcode]').val()==""){
 		alert("Barcode cannot be empty");
@@ -40,6 +45,7 @@ function addProduct(event){
 	   },
 	   error: handleAjaxError
 	});
+	$('#product-form')[0].reset();
 	return false;
 }
 
@@ -58,6 +64,11 @@ function updateProduct(event){
 	}
 	if($('#product-edit-form input[name=productName]').val()=="" || $('#product-edit-form input[name=barcode]').val()==""){
 		alert("ProductName and Barcode cannot be empty");
+		return false;
+	}
+	var mrp = $('#product-edit-form input[name=mrp]').val();
+	if(isNaN(parseFloat(mrp))){
+		alert("MRP should be a decimal value");
 		return false;
 	}
 	var url = getProductUrl() + "/" + id;

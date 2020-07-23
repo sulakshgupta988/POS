@@ -23,7 +23,7 @@ function addInventory(event){
 
 	return false;
 }
-
+var myVar;
 function getInventoryList(){
 	var url = getInventoryUrl();
 	$.ajax({
@@ -34,8 +34,17 @@ function getInventoryList(){
 	   },
 	   error: handleAjaxError
 	});
+	
+	myVar = setTimeout(getInventoryList, 2000);
+}
+
+function isInt(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
 }
 //UI DISPLAY METHODS
+
 function displayInventoryList(data){
 	var $tbody = $('#inventory-table').find('tbody');
 	$tbody.empty();
@@ -50,6 +59,8 @@ function displayInventoryList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	
+
 }
 
 
@@ -76,6 +87,12 @@ function updateInventory(event){
 	$('#edit-inventory-modal').modal('toggle');
 	//Get the ID
 	var id = $("#inventory-edit-form input[name=id]").val();
+	var quantity = $("#inventory-edit-form input[name=quantity]").val();
+	quantity = Number(quantity);
+	if(!isInt(quantity)){
+		alert("Quantity should be an integer");
+		return false;
+	}
 	var url = getInventoryUrl() + "/" + id;
 
 	//Set the values to update
