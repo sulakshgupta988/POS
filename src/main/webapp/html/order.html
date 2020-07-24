@@ -31,6 +31,7 @@
 
 			  <button type="button" class="btn btn-primary" id="add-order-item">Add</button>
 			  &nbsp;
+			    <button type="button" class="btn btn-warning" id="refresh-data">Refresh</button>
 			</form>
 	 </div>	
 </div> 
@@ -39,6 +40,22 @@
 <div class="row">
 	&nbsp;
 </div>
+
+
+<div class="row">
+	<div class="col-md-10">
+		<button type="button" class="btn btn-success float-right" id="confirm-order">Confirm order</button>
+	</div>
+	<div class="col-md-2">
+		<a th:href="@{/api/order/invoice}" target="_blank" class="btn btn-primary float-right">Generate Invoice</a>
+	</div>
+</div>
+
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
+
 <div class="row">
 
  <!-- Table -->
@@ -61,14 +78,7 @@
 </div>
 </div>
 
-<div class="row">
-	<div class="col-md-2">
-		<button type="button" class="btn btn-success" id="confirm-order">Confirm order</button>
-	</div>
-	<div class="col-md-2">
-		<a th:href="@{/api/order/invoice}" target="_blank" class="btn btn-primary">Generate Invoice</a>
-	</div>
-</div>
+
 
 
 <div class="modal" tabindex="-1" role="dialog" id="edit-order-item-modal">

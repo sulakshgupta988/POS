@@ -6,8 +6,12 @@ function getProductUrl(){
 //BUTTON ACTIONS
 function addProduct(event){
 	//Set the values to update
-	if(brandTemp==null || categoryTemp==null){
-		alert("Brand and category both are required");
+	if(brandTemp==""){
+		alert("Brand cannot be empty.");
+		return false;
+	}
+	if(categoryTemp==""){
+		alert("Category field is also required.");
 		return false;
 	}
 	$('#product-form input[name=brandId]').val(Number(brandData[brandTemp][categoryTemp]));

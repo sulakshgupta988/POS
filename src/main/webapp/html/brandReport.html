@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="snippets.html :: name_head" ></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_navbar"></nav>
+
+<div class="container">
+&nbsp;
+&nbsp;
+<div class="row">
+	
+</div>
+	<h3 text-align="center"> Brand Report </h3>
+	<br></br>
+	<div class="row">
+	 <!-- Table -->
+	 <div class="col-12">
+		<table class="table table-striped" id="report-table">
+		  <thead class="thead-dark">
+		  </thead>
+		  <tbody>
+		  </tbody>
+		</table>
+	
+	</div>
+	</div>
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/brandReport.js}"></script>
+
+</body>	
+
+</html>

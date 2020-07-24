@@ -81,10 +81,11 @@ function addOrder(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+	   	orderItemsData= {};
 	   },
 	   error: handleAjaxError
 	});
-	orderItemsData= {};
+	displayOrderItemsList();
 	return false;
 }
 
@@ -98,12 +99,11 @@ function updateOrderItem(event){
 	}
 	if(orderItemsData[barcode][3]<quantity)
 	{
-		alert("max quantity can be:"+ orderItemsData[barcode][3]);
+		alert("Maximum quantity can be:"+ orderItemsData[barcode][3]);
 		quantity=orderItemsData[barcode][3];
 	}
 	orderItemsData[barcode][1]=quantity;
 	displayOrderItemsList();
-	//Get the ID
 }
 
 
@@ -157,6 +157,7 @@ function init(){
 	$('#add-order-item').click(addOrderItem);
 	$('#update-order-item').click(updateOrderItem);
 	$('#confirm-order').click(addOrder);
+	$('#refresh-data').click(displayOrderItemsList);
 }
 
 $(document).ready(init);

@@ -7,15 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.employee.dao.InventoryDao;
-
+import com.increff.employee.dao.ProductDao;
 import com.increff.employee.model.ApiException;
 import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.ProductPojo;
 
 @Service
 public class InventoryService {
 
 	@Autowired
 	private InventoryDao dao;
+	
+	@Autowired
+	private ProductDao productDao;
+	
 
 	@Transactional(rollbackFor = ApiException.class)
 	public void add(InventoryPojo inventoryPojo) throws ApiException {
@@ -45,7 +50,8 @@ public class InventoryService {
 		InventoryPojo existing = getCheck(id);
 		int newQuantity = inventoryPojo.getQuantity() + existing.getQuantity();
 		if (newQuantity < 0) {
-			throw new ApiException("Total Quatity cannot be negative.");
+			ProductPojo productPojo = productDao.select(id);
+			throw new ApiException("Total Quantity of " + productPojo.getName() +  " cannot be negative. " + existing.getQuantity() +  " left.");
 		}
 		existing.setQuantity(newQuantity);
 	}
