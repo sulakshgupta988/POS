@@ -1,0 +1,89 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="snippets.html :: name_head" ></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_navbar"></nav>
+
+<div class="container">
+&nbsp;
+&nbsp;
+<div class="row">
+	
+</div>
+	<h3 text-align="center"> Sales Report </h3>
+	
+
+
+ 		<div class="row">
+	 	<div class="col-12">
+			<form class="form-inline" id="report-form">
+			  <div class="row">
+			  	<div class="col-6">
+			  	<div class="form-group">
+			  					    <div class="col-sm-6">
+			    <label for="inputStartDate" class="col-sm-2 col-form-label">StartDate</label>
+			      <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="enter Start Date">
+			    </div>
+			</div>
+		</div>
+			<div class='col-6'>
+			  	<div class="form-group">
+			    <div class="col-sm-6">	
+			    <label for="inputEndDate" class="col-sm-2 col-form-label">EndDate</label>
+			      <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="enter End Date">
+			    </div>
+				</div>
+			</div>
+			</div>
+				<input type="hidden" class="form-control" name="brand" id="brand">
+				<input type="hidden" class="form-control" name="category" id="category">
+			</form>
+			<div class="row">
+		  	<div class="col-md-3">
+		    <label for="selectBrand" class="col-sm-2 col-form-label">Brand</label>
+		    <select class="form-control" id="selectBrand">
+		    	<option value="" disabled selected>Select Brand</option>
+		    </select>    
+		  	</div>
+
+		 	<div class="col-md-3">
+			<label for="selectCategory" class="col-sm-2 col-form-label">Category</label>
+		    <select class="form-control" id="selectCategory">
+		    	<option value=""disabled selected>Select Category</option>
+		    </select>    
+		  	</div>
+			</div>
+				<button type="button" class="btn btn-primary" id="generate-report">	 Generate report  </button>
+	 </div>	
+<div class="row">
+	 <!-- Table -->
+	 <div class="col-12">
+		<table class="table table-striped" id="report-table">
+		  <thead class="thead-dark">
+		  </thead>
+		  <tbody>
+		  </tbody>
+		</table>
+	
+	</div>
+	</div>
+
+ 
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/salesReport.js}"></script>
+
+</body>	
+
+</html>
