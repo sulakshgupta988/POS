@@ -56,7 +56,7 @@ function isInt(value) {
          !isNaN(parseInt(value, 10));
 }
 
-function addOrder(event){
+function addOrder(){
 	//Set the values to update
 	if (Object.keys(orderItemsData).length === 0){
 		alert("At least 1 item should be there in an order");
@@ -83,9 +83,11 @@ function addOrder(event){
 	   success: function(response) {
 	   	orderItemsData= {};
 	   	displayOrderItemsList();
+	   	getOrders();
 	   },
 	   error: function(response){
 	   		displayOrderItemsList();
+	   		getOrders();
 	   		handleAjaxError(response);
 	   }
 	   
@@ -93,6 +95,20 @@ function addOrder(event){
 	displayOrderItemsList();
 	return false;
 }
+
+function getOrders(){
+	var url = getOrderUrl();
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		displayOrders(data);  
+	   },
+	   error: handleAjaxError
+	});
+}
+
+
 
 function updateOrderItem(event){
 	$('#edit-order-item-modal').modal('toggle');
@@ -111,9 +127,41 @@ function updateOrderItem(event){
 	displayOrderItemsList();
 }
 
+function genInv(id){
+	var url = "/pos/api/order/invoice/" + id;
+	console.log(fss);
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+ 	
+	   },
+	   error: handleAjaxError
+	});	
+
+}
 
 
 //UI DISPLAY METHODS
+
+
+function displayOrders(data){
+	var $tbody = $('#order-table').find('tbody');
+	$tbody.empty();
+	for(var i in data){
+		var e = data[i];
+		var buttonHtml = '<a href="/pos/api/order/invoice/' + e.id + '" target="_blank" class="btn btn-primary float-right">Generate Invoice</a>';
+		
+		var row = '<tr>'
+		+ '<td>' + e.id + '</td>'
+		+ '<td class="text-center">' + new Date(e.date).toUTCString() + '</td>'
+		+ '<td>' + buttonHtml + '</td>'
+		+ '</tr>';
+        $tbody.append(row);
+    }
+}
+
+
 function displayOrderItemsList(){
 	var $tbody = $('#order-items-table').find('tbody');
 	$tbody.empty();
@@ -163,6 +211,7 @@ function init(){
 	$('#update-order-item').click(updateOrderItem);
 	$('#confirm-order').click(addOrder);
 	$('#refresh-data').click(displayOrderItemsList);
+	getOrders();
 }
 
 $(document).ready(init);

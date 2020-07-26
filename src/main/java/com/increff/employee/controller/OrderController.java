@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.employee.dto.OrderDto;
 import com.increff.employee.model.ApiException;
+import com.increff.employee.model.OrderData;
 import com.increff.employee.model.OrderItemsData;
 import com.increff.employee.model.OrderItemsForm;
 
@@ -36,9 +37,15 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class OrderController {
 
-	private static final String PATH_XSL ="./templateInvoice.xsl" ;
+	private static final String PATH_XSL = "./templateInvoice.xsl";
 	@Autowired
 	private OrderDto dto;
+
+	@ApiOperation(value = "Get all orders")
+	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
+	public List<OrderData> getAll() {
+		return dto.getAll();
+	}
 
 	@ApiOperation(value = "Get a product by barcode")
 	@RequestMapping(path = "/api/order/{barcode}", method = RequestMethod.GET)
@@ -54,8 +61,11 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "Generate Invoice")
-	@RequestMapping(path = "/api/order/invoice", method = RequestMethod.GET)
-	public void get(HttpServletResponse response) throws ApiException {
+	@RequestMapping(path = "/api/order/invoice/{id}", method = RequestMethod.GET)
+	public void get(@PathVariable String id, HttpServletResponse response)
+			throws ApiException, ParserConfigurationException, TransformerException {
+		int idInt = Integer.parseInt(id);
+		dto.createInvoice(idInt);
 		try {
 
 			FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());

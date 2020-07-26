@@ -12,7 +12,7 @@ import com.increff.employee.pojo.OrderPojo;
 @Repository
 public class OrderDao extends AbstractDao {
 	private static String select_by_date = "select p from OrderPojo p where date between :startDate and :endDate";
-	private static String select_all = "select p from OrderPojo p";
+	private static String select_all = "select p from OrderPojo p order by p.id desc";
 
 	public OrderPojo add(OrderPojo order) {
 		order.setDate(new Date());
