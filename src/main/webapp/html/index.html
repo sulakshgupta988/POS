@@ -4,20 +4,27 @@
 
 <head th:replace="snippets.html :: name_head"></head>
 
-<body>
+<body style ="background-color: #F0F8FF;">
 
 <nav th:replace="snippets.html :: name_navbar"></nav>
 
 <div class="container">
 <div class="row">
+<div class="col-3">
+</div>
 <div class="col-6">
  
-<div class="jumbotron" >
-  <h1 class="display-4">POS Welcomes You!!</h1>
-  <h3>Never Easier than now</h3>
+<div class="jumbotron" style="margin:30px;" >
+  <h1 class="display-4">POS Project</h1>
   <hr class="my-4">
   <!--p>This application teaches you Spring concepts and creating awesome web applications</p-->
-  <a class="btn btn-primary btn-lg" th:href="@{/ui/brand}" role="button">Confused!! Start here</a>
+  <div class="row">
+  	<div class="col-4">
+  	</div>
+  	<div class="col-4">
+  		<a class="btn btn-primary btn-lg" th:href="@{/ui/brand}" role="button">Brands</a>
+  	</div>
+  </div>
 </div>
 
 </div>

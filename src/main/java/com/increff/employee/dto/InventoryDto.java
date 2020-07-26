@@ -47,10 +47,10 @@ public class InventoryDto {
 
 	public void update(int id, InventoryForm inventoryForm) throws ApiException {
 		InventoryPojo inventoryPojo = convert(inventoryForm);
-		if(id != inventoryPojo.getId()) {
+		if (id != inventoryPojo.getId()) {
 			throw new ApiException("The product id and barcode does not match");
 		}
-		service.updatePlus(id, inventoryPojo);
+		service.update(id, inventoryPojo);
 	}
 
 	private InventoryPojo convert(InventoryForm inventoryForm) throws ApiException {
@@ -59,6 +59,10 @@ public class InventoryDto {
 			throw new ApiException("Barcode cannot be empty");
 		}
 		ProductPojo productPojo = productService.select(inventoryForm.getBarcode());
+		if (productPojo == null) {
+			throw new ApiException(
+					"Barcode " + inventoryForm.getBarcode() + " is not assigned to any existing product.");
+		}
 		inventoryPojo.setId(productPojo.getId());
 		inventoryPojo.setQuantity(inventoryForm.getQuantity());
 

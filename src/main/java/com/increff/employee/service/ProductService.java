@@ -96,7 +96,7 @@ public class ProductService {
 			throw new ApiException("MRP cannot be negative");
 		}
 		if (dao.select(p.getBarcode()) != null) {
-			throw new ApiException("Barcode already exists");
+			throw new ApiException("Barcode " + p.getBarcode() + " is assigned to product " + dao.select(p.getBarcode()).getName() + ".");
 		}
 
 	}

@@ -82,8 +82,13 @@ function addOrder(event){
        },	   
 	   success: function(response) {
 	   	orderItemsData= {};
+	   	displayOrderItemsList();
 	   },
-	   error: handleAjaxError
+	   error: function(response){
+	   		displayOrderItemsList();
+	   		handleAjaxError(response);
+	   }
+	   
 	});
 	displayOrderItemsList();
 	return false;

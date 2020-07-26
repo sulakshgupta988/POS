@@ -145,6 +145,7 @@ function displayEditProduct(barcode,brandName,category){
 	fillBrandDrop($('#selectEditBrand'));
 	$('#selectEditBrand').val(brandName);
 	brandEditTemp=brandName;
+	fillCategoryDrop($('#selectEditCategory'),brandEditTemp);
 	$('#selectEditCategory').val(category);
 	categoryEditTemp=category;
 	var url = getProductUrl() + "/" + barcode;
@@ -246,6 +247,7 @@ function displayProduct(data){
 
 //To store Brand table in memory
 var brandData={};
+
 function getBrandList(){
 	var url = "/pos/api/brand";
 	$.ajax({
@@ -279,7 +281,7 @@ function fillBrandDrop(selectbody){
 	var $selectbody=selectbody;
 	//console.log(brandData);
 		$selectbody.empty();
-		$selectbody.append("<option></option>");
+		$selectbody.append("<option disabled selected> Select Brand</option>");
 	for(var i in brandData){
 		var row="<option>"+i+"</option>";
 		$selectbody.append(row);
@@ -289,7 +291,7 @@ function fillBrandDrop(selectbody){
 function fillCategoryDrop(selectbody,brandTemp){
 	var $selectbody=selectbody;
 	$selectbody.empty();
-	$selectbody.append("<option></option>");
+	$selectbody.append("<option disabled selected>Select Category</option>");
 	for(var i in brandData[brandTemp])
 	{
 		var row="<option>"+i+"</option>";
@@ -297,7 +299,7 @@ function fillCategoryDrop(selectbody,brandTemp){
 	}
 	}
 
-var brandTemp;
+var brandTemp="";
 $('#selectBrand').on('change',function(){
 	brandTemp = $("#selectBrand option:selected").text();
 	fillCategoryDrop($('#selectCategory'),brandTemp);
@@ -309,7 +311,7 @@ $('#selectEditBrand').on('change',function(){
 	fillCategoryDrop($('#selectEditCategory'),brandEditTemp);
     });
 
-var categoryTemp;
+var categoryTemp="";
 $('#selectCategory').on('change',function(){
 	categoryTemp = $("#selectCategory option:selected").text();
 	//console.log(brandData[brandTemp]);

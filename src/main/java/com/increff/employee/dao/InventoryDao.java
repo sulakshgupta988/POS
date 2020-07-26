@@ -15,7 +15,13 @@ public class InventoryDao extends AbstractDao {
 	private String select_all = "select p from InventoryPojo p";
 
 	public void add(InventoryPojo inventoryPojo) {
-		em.persist(inventoryPojo);
+		if (get(inventoryPojo.getId()) == null) {
+			em.persist(inventoryPojo);
+		} else {
+			delete(inventoryPojo.getId());
+			em.persist(inventoryPojo);
+			
+		}
 	}
 
 	public InventoryPojo get(int id) {
@@ -28,11 +34,11 @@ public class InventoryDao extends AbstractDao {
 		TypedQuery<InventoryPojo> query = em.createQuery(select_all, InventoryPojo.class);
 		return query.getResultList();
 	}
-	
+
 	public void delete(int id) {
 		InventoryPojo inventoryPojo = em.find(InventoryPojo.class, id);
-		if(inventoryPojo == null) {
-			return ;
+		if (inventoryPojo == null) {
+			return;
 		}
 		em.remove(inventoryPojo);
 	}

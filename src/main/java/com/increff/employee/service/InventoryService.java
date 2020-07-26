@@ -17,18 +17,14 @@ public class InventoryService {
 
 	@Autowired
 	private InventoryDao dao;
-	
+
 	@Autowired
 	private ProductDao productDao;
-	
 
 	@Transactional(rollbackFor = ApiException.class)
 	public void add(InventoryPojo inventoryPojo) throws ApiException {
 		if (inventoryPojo.getQuantity() < 0) {
 			throw new ApiException("Quantity cannot be negative.");
-		}
-		if(dao.get(inventoryPojo.getId())!= null) {
-			throw new ApiException("The inventory for this barcode already exists.");
 		}
 		dao.add(inventoryPojo);
 
@@ -51,9 +47,20 @@ public class InventoryService {
 		int newQuantity = inventoryPojo.getQuantity() + existing.getQuantity();
 		if (newQuantity < 0) {
 			ProductPojo productPojo = productDao.select(id);
-			throw new ApiException("Total Quantity of " + productPojo.getName() +  " cannot be negative. " + existing.getQuantity() +  " left.");
+			throw new ApiException("Total Quantity of " + productPojo.getName() + " cannot be negative. "
+					+ existing.getQuantity() + " left.");
 		}
 		existing.setQuantity(newQuantity);
+	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public void update(int id, InventoryPojo inventoryPojo) throws ApiException {
+		InventoryPojo existing = getCheck(id);
+		if (inventoryPojo.getQuantity() < 0) {
+			throw new ApiException("Quantity should be non negative.");
+		}
+		existing.setQuantity(inventoryPojo.getQuantity());
+
 	}
 
 	protected InventoryPojo getCheck(int id) throws ApiException {

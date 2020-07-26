@@ -4,7 +4,7 @@
 
 <head th:replace="snippets.html :: name_head" ></head>
 
-<body>
+<body style ="background-color: #F0F8FF;">
 
 <nav th:replace="snippets.html :: name_navbar"></nav>
 
@@ -12,29 +12,26 @@
 &nbsp;
 &nbsp;
 <div class="row">
-	
 </div>
 	<h3 text-align="center"> Sales Report </h3>
 	
-
-
  		<div class="row">
 	 	<div class="col-12">
 			<form class="form-inline" id="report-form">
 			  <div class="row">
 			  	<div class="col-6">
 			  	<div class="form-group">
-			  					    <div class="col-sm-6">
-			    <label for="inputStartDate" class="col-sm-2 col-form-label">StartDate</label>
-			      <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="enter Start Date">
-			    </div>
-			</div>
-		</div>
+			  		<div class="col-sm-6">
+			    <label for="inputStartDate" class="col-sm-3 col-form-label">From: </label>
+			      <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="Enter Start Date">
+			    	</div>
+				</div>
+				</div>
 			<div class='col-6'>
 			  	<div class="form-group">
 			    <div class="col-sm-6">	
-			    <label for="inputEndDate" class="col-sm-2 col-form-label">EndDate</label>
-			      <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="enter End Date">
+			    <label for="inputEndDate" class="col-sm-3 col-form-label">To: </label>
+			      <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="Enter End Date">
 			    </div>
 				</div>
 			</div>
@@ -42,6 +39,8 @@
 				<input type="hidden" class="form-control" name="brand" id="brand">
 				<input type="hidden" class="form-control" name="category" id="category">
 			</form>
+			 </div>
+			  </div>
 			<div class="row">
 		  	<div class="col-md-3">
 		    <label for="selectBrand" class="col-sm-2 col-form-label">Brand</label>
@@ -56,21 +55,29 @@
 		    	<option value=""disabled selected>Select Category</option>
 		    </select>    
 		  	</div>
+			
+			<div class="col-md-3">
+				<button type="button" style="margin-top: 35px;" class="btn btn-primary" id="generate-report">	 Generate Report  </button>
 			</div>
-				<button type="button" class="btn btn-primary" id="generate-report">	 Generate report  </button>
-	 </div>	
-<div class="row">
-	 <!-- Table -->
-	 <div class="col-12">
-		<table class="table table-striped" id="report-table">
-		  <thead class="thead-dark">
-		  </thead>
-		  <tbody>
-		  </tbody>
-		</table>
+
+			</div>
 	
-	</div>
-	</div>
+	
+	 	<div class="row">
+	 		&nbsp;
+	 	</div>	
+			<div class="row">
+				 <!-- Table -->
+				 <div class="col-12">
+					<table class="table table-striped" id="report-table">
+					  <thead class="thead-dark">
+					  </thead>
+					  <tbody>
+					  </tbody>
+					</table>
+				
+				</div>
+				</div>
 
  
 <!-- Blank Row -->
