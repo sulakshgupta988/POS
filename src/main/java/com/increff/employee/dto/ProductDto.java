@@ -56,9 +56,9 @@ public class ProductDto {
 
 	protected ProductData convert(ProductPojo p) throws ApiException {
 		ProductData d = new ProductData();
-		BrandPojo bp = brandService.get(p.getBrandId());
+		BrandPojo bp = brandService.get(p.getBrandPojo().getId());
 		d.setBarcode(p.getBarcode());
-		d.setBrandId(p.getBrandId());
+		d.setBrandId(p.getBrandPojo().getId());
 		d.setName(p.getName());
 		d.setId(p.getId());
 		d.setMrp(p.getMrp());
@@ -75,7 +75,7 @@ public class ProductDto {
 			throw new ApiException("The given brand and category does not exist is Brand master.");
 		}
 		p.setBarcode(form.getBarcode());
-		p.setBrandId(form.getBrandId());
+		p.setBrandPojo(brandService.get(form.getBrandId()));
 		p.setMrp(form.getMrp());
 		p.setName(form.getName());
 

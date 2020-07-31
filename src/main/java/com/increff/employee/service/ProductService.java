@@ -59,7 +59,7 @@ public class ProductService {
 		getCheck(id);
 		ProductPojo ex = dao.select(id);
 		ex.setBarcode(p.getBarcode());
-		ex.setBrandId(p.getBrandId());
+		ex.setBrandPojo(p.getBrandPojo());
 		ex.setId(id);
 		ex.setMrp(p.getMrp());
 		ex.setName(p.getName());

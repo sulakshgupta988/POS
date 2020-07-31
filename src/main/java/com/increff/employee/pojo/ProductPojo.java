@@ -1,5 +1,6 @@
 package com.increff.employee.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.sun.istack.NotNull;
+
 
 @Entity
 @Table(name = "Product", uniqueConstraints = { @UniqueConstraint(columnNames = "barcode") })
@@ -17,14 +18,16 @@ public class ProductPojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@NotNull
+
+	@Column(nullable=false)
 	private String barcode;
-	
-	@ManyToOne(optional=false)
-	@JoinColumn(name ="brandId")
-	private int brandId;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "brandId")
+	private BrandPojo brandPojo;
+
 	private String name;
+
 	private double mrp;
 
 	public int getId() {
@@ -43,12 +46,12 @@ public class ProductPojo {
 		this.barcode = barcode;
 	}
 
-	public int getBrandId() {
-		return brandId;
+	public BrandPojo getBrandPojo() {
+		return brandPojo;
 	}
 
-	public void setBrandId(int brand_category) {
-		this.brandId = brand_category;
+	public void setBrandPojo(BrandPojo brandPojo) {
+		this.brandPojo = brandPojo;
 	}
 
 	public String getName() {
