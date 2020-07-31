@@ -152,9 +152,10 @@ public class OrderDto {
 			mrp.appendChild(document.createTextNode(Double.toString(p.getMrp())));
 			product.appendChild(mrp);
 			Element totalPrice = document.createElement("totalPrice");
-			totalPrice.appendChild(document.createTextNode(Double.toString(form.getQuantity() * p.getMrp())));
+			totalPrice.appendChild(document.createTextNode(Double.toString(Math.floor(form.getQuantity() * p.getMrp()*100)/100)));
 			product.appendChild(totalPrice);
 			sum += (p.getMrp() * form.getQuantity());
+			sum = Math.floor(sum * 100) / 100;
 			sno += 1;
 		}
 		Element totalPrice = document.createElement("totalAmount");

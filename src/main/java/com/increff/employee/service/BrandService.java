@@ -35,7 +35,7 @@ public class BrandService {
 			throw new ApiException("Please Enter some Brand Category");
 		}
 		if (dao.select(p.getBrand(), p.getCategory()) != null) {
-			throw new ApiException("Database requires unique combination of Brand and its category.");
+			throw new ApiException("The category " +  p.getCategory() + " already exists for the brand "+ p.getBrand());
 		}
 		dao.add(p);
 

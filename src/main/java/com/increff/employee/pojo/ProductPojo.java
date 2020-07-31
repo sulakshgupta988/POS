@@ -4,8 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "Product", uniqueConstraints = { @UniqueConstraint(columnNames = "barcode") })
@@ -13,7 +17,12 @@ public class ProductPojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@NotNull
 	private String barcode;
+	
+	@ManyToOne(optional=false)
+	@JoinColumn(name ="brandId")
 	private int brandId;
 	private String name;
 	private double mrp;

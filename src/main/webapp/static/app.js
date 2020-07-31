@@ -15,8 +15,11 @@ function toJson($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	alert(response.message);
-}
+	$.toaster('Error!! ', {
+        text: response.message,
+        position:'bottom right'
+
+})}
 
 function readFileData(file, callback){
 	var config = {

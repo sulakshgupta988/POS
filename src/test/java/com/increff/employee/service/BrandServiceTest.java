@@ -106,7 +106,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 	}
 
 	
-	// Test for gettin a brand
+	// Test for getting a brand
 	@Test
 	public void testGet() throws ApiException {
 		brandDao.add(brandPojo);

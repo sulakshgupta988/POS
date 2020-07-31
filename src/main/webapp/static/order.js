@@ -32,17 +32,23 @@ function addOrderItem(){
 	   		if(response.productQuantity<1)
 	   			alert("Sorry item not available");
 	   		else{
-	   			if(!orderItemsData.hasOwnProperty(barcode))
-	   			orderItemsData[barcode]=[response.productName,quantity,response.mrp,response.productQuantity];
-	   		else{
-	   			orderItemsData[barcode][1]=orderItemsData[barcode][1]+quantity;
-	   		}
-	   		if(response.productQuantity<orderItemsData[barcode][1]){
-	   			alert("Cannot buy more than "+ response.productQuantity + response.productName);
-	   			orderItemsData[barcode][1]=response.productQuantity;
-	   		}
+	   			if(!orderItemsData.hasOwnProperty(barcode)){
+	   				orderItemsData[barcode]=[response.productName,quantity,response.mrp,response.productQuantity];
+	   				if(response.productQuantity < quantity){
+	   				alert("Only "+ response.productQuantity + " " + response.productName + " left.");
+	   				orderItemsData[barcode][1]=response.productQuantity;
+	   				}
+	   			}
+	   			else if(response.productQuantity < orderItemsData[barcode][1] + quantity){
+	   				var moreCanBeBought  = response.productQuantity - orderItemsData[barcode][1];
+	   				alert("Cannot add more than "+ moreCanBeBought + " " + response.productName);
+	   				orderItemsData[barcode][1]=response.productQuantity;
+	   				}
+	   			else{
+	   				orderItemsData[barcode][1]=orderItemsData[barcode][1]+quantity;
+	   				}
 	   		displayOrderItemsList();
-	   }},
+	  		 }},
 	   error: handleAjaxError
 	});
 	$('#order-item-form')[0].reset();
@@ -59,7 +65,9 @@ function isInt(value) {
 function addOrder(){
 	//Set the values to update
 	if (Object.keys(orderItemsData).length === 0){
-		alert("At least 1 item should be there in an order");
+		$.toaster('Error!! ', {
+       		 text: 'At least one item is required to place an order.'
+		})
 		return false;
 	}
 	var $tbody = $('#order-items-table').find('tbody');
@@ -93,6 +101,7 @@ function addOrder(){
 	   
 	});
 	displayOrderItemsList();
+	$('#add-order-item-modal').modal('toggle');
 	return false;
 }
 
@@ -111,20 +120,26 @@ function getOrders(){
 
 
 function updateOrderItem(event){
-	$('#edit-order-item-modal').modal('toggle');
 	var quantity=$('#order-item-edit-form input[name=quantity]').val();
 	var barcode=$('#order-item-edit-form input[name=barcode]').val();
 	if(!isInt(quantity)){
 		alert("Quantity should be an integer");
 		return false;
 	}
-	if(orderItemsData[barcode][3]<quantity)
+	if(quantity < 1){
+		$.toaster('Error!!' , {
+			text: 'Quantity should be greater than zero'
+		})
+		return false;
+	}
+	if(orderItemsData[barcode][3] < quantity)
 	{
 		alert("Maximum quantity can be:"+ orderItemsData[barcode][3]);
 		quantity=orderItemsData[barcode][3];
 	}
 	orderItemsData[barcode][1]=quantity;
 	displayOrderItemsList();
+	closeForm();
 }
 
 function genInv(id){
@@ -141,9 +156,7 @@ function genInv(id){
 
 }
 
-
 //UI DISPLAY METHODS
-
 
 function displayOrders(data){
 	var $tbody = $('#order-table').find('tbody');
@@ -154,7 +167,7 @@ function displayOrders(data){
 		
 		var row = '<tr>'
 		+ '<td>' + e.id + '</td>'
-		+ '<td class="text-center">' + new Date(e.date).toUTCString() + '</td>'
+		+ '<td class="text-center">' + new Date(e.date).toLocaleString() + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
@@ -169,13 +182,13 @@ function displayOrderItemsList(){
 	var total=0;
 	for(var i in orderItemsData){
 		var buttonHtml = ' <button class="btn btn-info" onclick="displayOrderItem(\'' + i + '\')">Edit</button>'
-		buttonHtml +=	' || <button class="btn btn-danger"onclick="deleteOrderItem(\''+ i + '\')">Delete</button>'
+		buttonHtml +=	' || <button class="btn btn-dark"onclick="deleteOrderItem(\''+ i + '\')">Delete</button>'
 		var row = '<tr>'
 		+ '<td>' + id++ + '</td>'
 		+ '<td>' + orderItemsData[i][0] + '</td>'
 		+ '<td>' + orderItemsData[i][1] + '</td>'
 		+ '<td>' + orderItemsData[i][2] + '</td>'
-		+ '<td>' + orderItemsData[i][1]*orderItemsData[i][2]+ '</td>'
+		+ '<td>' + (orderItemsData[i][1]*orderItemsData[i][2]).toFixed(2)+ '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
 		total+=orderItemsData[i][1]*orderItemsData[i][2];
@@ -186,10 +199,15 @@ function displayOrderItemsList(){
 		+ '<td></td>'
 		+ '<td></td>'
 		+ '<td>Total Amount:</td>'
-		+ '<td>' + total + '</td>'
+		+ '<td>' + total.toFixed(2) + '</td>'
 		+ '<td></td>'
 		+ '</tr>';
 		$tbody.append(row);
+}
+
+function closeForm(){
+	$(document).find('#edit-div').hide();
+	$(document).find('#buttons').hide();
 }
 
 function deleteOrderItem(barcode){
@@ -201,9 +219,13 @@ function displayOrderItem(barcode){
 	$("#order-item-edit-form input[name=productName]").val(orderItemsData[barcode][0]);	
 	$("#order-item-edit-form input[name=quantity]").val(orderItemsData[barcode][1]);	
 	$("#order-item-edit-form input[name=barcode]").val(barcode);	
-	$('#edit-order-item-modal').modal('toggle');
+	$(document).find('#edit-div').show();
+	$(document).find('#buttons').show();
 }
 
+function displayOrderModal(){
+	$('#add-order-item-modal').modal('toggle');
+}
 
 //INITIALIZATION CODE
 function init(){
@@ -211,6 +233,10 @@ function init(){
 	$('#update-order-item').click(updateOrderItem);
 	$('#confirm-order').click(addOrder);
 	$('#refresh-data').click(displayOrderItemsList);
+	$('#add-order').click(displayOrderModal);
+	$('#cancel-order-item').click(closeForm);
+	$(document).find('#edit-div').hide();
+	$(document).find('#buttons').hide();
 	getOrders();
 }
 
